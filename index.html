@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李恩李娜 · 烟台</title> <!-- 标题已更新 -->
+
+    <!-- 引入更具设计感的 Google Fonts -->
+    <!-- Montserrat for bold, modern titles; Noto Sans SC for clean body text -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- 内部样式表 - 注入更高级的设计感 -->
+    <style>
+        /* 全局 CSS 变量 - 升级版调色板 */
+        :root {
+            --header-gradient-start: #6AC5AC; /* 柔和的青绿色 */
+            --header-gradient-end: #8CC6F0;   /* 清新的天蓝色 */
+            --primary-highlight: #F4A261;    /* 暖色调的珊瑚橙，作为强调色 */
+            --text-dark: #2C3E50;             /* 深色文本，清晰度高 */
+            --text-light: #7F8C8D;            /* 辅助文本，柔和 */
+            --background-light: #F8FBFD;      /* 整体背景，轻盈、透气 */
+            --card-background: #FFFFFF;       /* 卡片背景，纯净 */
+            --border-soft: #E0E6ED;           /* 柔和的边框 */
+            --shadow-subtle: rgba(0, 0, 0, 0.05); /* 柔和阴影 */
+            --shadow-medium: rgba(0, 0, 0, 0.12); /* 中等阴影 */
+        }
+
+        /* 重置与基础样式 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif; /* 主体内容字体 */
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden; /* 防止水平滚动条 */
+            scroll-behavior: smooth; /* 页面内滚动平滑过渡 */
+        }
+
+        /* 头部设计 - 更现代、优雅 */
+        .site-header {
+            background: linear-gradient(135deg, var(--header-gradient-start) 0%, var(--header-gradient-end) 100%); /* 柔和渐变背景 */
+            color: #fff;
+            padding: 40px 0 25px; /* 增加上下内边距，给标题更多空间 */
+            text-align: center;
+            box-shadow: 0 8px 20px var(--shadow-medium); /* 更深邃的阴影 */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .site-header h1 {
+            font-family: 'Montserrat', sans-serif; /* 标题采用更现代的粗体无衬线字体 */
+            font-size: 2.5rem; /* 增大标题 */
+            margin-bottom: 1.2rem;
+            letter-spacing: 2px; /* 增加字母间距，更显大气 */
+            line-height: 1.2;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25); /* 更有层次感的阴影 */
+            font-weight: 800; /* 超粗字体 */
+        }
+
+        /* 日期导航条 - 更精致的标签页 */
+        .date-nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(255, 255, 255, 0.95); /* 近乎不透明的白色背景 */
+            padding: 1rem 0;
+            border-top: 1px solid var(--border-soft);
+            box-shadow: inset 0 -4px 10px var(--shadow-subtle); /* 柔和的内阴影 */
+            margin-top: 20px; /* 与标题分离 */
+            border-radius: 12px; /* 更大的圆角 */
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 (现代浏览器支持) */
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 0.9rem 0.5rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease; /* 更平滑的过渡 */
+            border-radius: 10px; /* 圆角 */
+            margin: 0 0.5rem;
+            position: relative;
+            z-index: 1;
+            white-space: nowrap; /* 防止文字换行 */
+        }
+
+        .nav-item:hover {
+            background-color: rgba(240, 245, 250, 0.7); /* 更自然的悬停背景 */
+            color: var(--header-gradient-start);
+            transform: translateY(-3px); /* 悬停时轻微上浮 */
+            box-shadow: 0 4px 10px var(--shadow-subtle);
+        }
+
+        .nav-item.active {
+            background-color: var(--primary-highlight); /* 活跃状态背景 */
+            color: #fff; /* 活跃状态文字颜色变为白色 */
+            font-weight: 700;
+            box-shadow: 0 5px 15px var(--shadow-medium); /* 活跃状态更明显的阴影 */
+            transform: translateY(-2px); /* 保持轻微上浮 */
+            border: 1px solid var(--primary-highlight); /* 活跃状态边框 */
+        }
+
+        /* 行程内容容器 */
+        .itinerary-container {
+            max-width: 800px;
+            margin: 35px auto; /* 增加上下间距 */
+            padding: 0 20px;
+        }
+
+        /* 每日行程板块 - 更流畅的淡入与微缩放 */
+        .day-content {
+            display: none;
+            background-color: var(--card-background);
+            border-radius: 18px; /* 更大的圆角，更柔和 */
+            box-shadow: 0 10px 30px var(--shadow-subtle); /* 更柔和且分散的阴影 */
+            padding: 35px 30px; /* 增加内边距 */
+            margin-bottom: 45px;
+            animation: fadeInScale 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* 更自然的缓动函数 */
+        }
+
+        .day-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.97); /* 初始位置更低，轻微缩小 */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .day-title {
+            font-family: 'Montserrat', sans-serif; /* 日期标题也使用Montserrat */
+            font-size: 2rem; /* 增大日期标题 */
+            color: var(--header-gradient-start); /* 使用渐变起始色 */
+            margin-bottom: 35px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary-highlight); /* 强调色下划线 */
+            display: inline-block;
+            width: auto;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            letter-spacing: 1.2px;
+            font-weight: 700; /* 更粗 */
+        }
+
+        /* 单个活动块 - 精致的卡片式设计，增强时间轴感 */
+        .activity-block {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding: 22px;
+            background-color: var(--background-dark);
+            border-radius: 15px; /* 圆角 */
+            border-left: 7px solid var(--header-gradient-start); /* 左侧强调色边框，更粗 */
+            box-shadow: 0 4px 15px var(--shadow-subtle);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+
+        .activity-block:hover {
+            transform: translateY(-6px); /* 悬停上浮效果更明显 */
+            box-shadow: 0 8px 25px var(--shadow-medium);
+        }
+
+        .activity-block .time {
+            flex-shrink: 0;
+            width: 120px; /* 再次增加时间列宽度 */
+            font-weight: 700;
+            color: var(--header-gradient-start);
+            font-size: 1rem;
+            padding-right: 20px;
+            border-right: 1px dashed var(--border-soft); /* 虚线分隔符 */
+            text-align: right;
+            line-height: 1.4;
+            position: relative;
+            top: 5px; /* 微调对齐 */
+        }
+        
+        /* 时间轴圆点 */
+        .activity-block .time::before {
+            content: '';
+            position: absolute;
+            right: -8px; /* 时间轴点位置 */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px; /* 增大圆点 */
+            height: 16px;
+            background-color: var(--primary-highlight); /* 时间点颜色 */
+            border-radius: 50%;
+            border: 3px solid var(--header-gradient-start); /* 时间点外环更粗 */
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        .activity-block .details {
+            flex-grow: 1;
+            padding-left: 20px;
+        }
+
+        .activity-block p {
+            margin-bottom: 7px;
+            font-size: 0.98rem; /* 稍微增大正文 */
+            color: var(--text-dark);
+        }
+
+        .activity-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .activity-block .activity {
+            font-weight: 700;
+            color: var(--header-gradient-start);
+            font-size: 1.2rem; /* 增大活动名称字体 */
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .activity-block .location,
+        .activity-block .transport,
+        .activity-block .duration {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .activity-block .notes {
+            font-style: italic;
+            color: var(--primary-highlight);
+            font-size: 0.9rem;
+            margin-top: 18px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--border-soft);
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        /* 媒体查询 - 针对小屏幕（手机）优化 */
+        @media (max-width: 650px) {
+            .site-header {
+                padding: 30px 0 20px;
+            }
+            .site-header h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                letter-spacing: 1.5px;
+            }
+            .date-nav {
+                max-width: 95%;
+                padding: 0.8rem 0;
+                border-radius: 8px;
+            }
+            .nav-item {
+                font-size: 0.85rem;
+                padding: 0.7rem 0.2rem;
+                margin: 0 0.25rem;
+            }
+            .nav-item.active {
+                transform: none; /* 小屏幕上取消上浮效果 */
+            }
+
+            .itinerary-container {
+                margin: 25px auto;
+                padding: 0 15px;
+            }
+
+            .day-content {
+                padding: 25px 20px;
+                border-radius: 12px;
+                margin-bottom: 30px;
+            }
+
+            .day-title {
+                font-size: 1.8rem;
+                margin-bottom: 25px;
+                padding-bottom: 10px;
+            }
+
+            .activity-block {
+                flex-direction: column; /* 小屏幕上垂直堆叠 */
+                border-left: none; /* 移除左侧边框 */
+                border-top: 6px solid var(--header-gradient-start); /* 改为顶部强调色边框 */
+                padding: 18px;
+                border-radius: 12px;
+            }
+
+            .activity-block .time {
+                width: 100%;
+                text-align: left;
+                padding-right: 0;
+                padding-bottom: 12px;
+                border-right: none;
+                border-bottom: 1px dashed var(--border-soft); /* 时间和详情之间加横线 */
+                margin-bottom: 12px;
+                top: 0; /* 重置微调 */
+            }
+            .activity-block .time::before {
+                content: none; /* 移除时间点装饰，简化小屏幕 */
+            }
+
+            .activity-block .details {
+                padding-left: 0;
+            }
+
+            .activity-block .activity {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+
+            .activity-block .location,
+            .activity-block .transport,
+            .activity-block .duration,
+            .activity-block .notes {
+                font-size: 0.85rem;
+            }
+            .activity-block .notes {
+                margin-top: 12px;
+                padding-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <h1>李恩李娜 · 烟台</h1> <!-- 大标题已更新 -->
+        <nav class="date-nav">
+            <!-- 日期导航项，data-day属性关联到下方section的ID -->
+            <a href="#" class="nav-item" data-day="day1">5/30 周五</a>
+            <a href="#" class="nav-item" data-day="day2">5/31 周六</a>
+            <a href="#" class="nav-item" data-day="day3">6/1 周日</a>
+            <a href="#" class="nav-item" data-day="day4">6/2 周一</a>
+        </nav>
+    </header>
+
+    <main class="itinerary-container">
+        <!-- 5月30日 周五 -->
+        <section id="day1" class="day-content">
+            <h2 class="day-title">5月30日 周五：出发准备</h2>
+            
+            <div class="activity-block">
+                <div class="time">约 14:00 - 14:20</div>
+                <div class="details">
+                    <p class="activity">从家出发前往郑州机场</p>
+                    <p class="location">郑州颐景苑 → 郑州东站 (11.2公里)</p>
+                    <p class="transport">开车</p>
+                    <p class="duration">约17分钟 (理想路况)</p>
+                    <p class="notes">务必提前出发！建议最晚14:00出发。考虑到市区可能存在的拥堵和进入火车站停车时间，确保14:40前能进入候车大厅。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">14:40 - 15:10</div>
+                <div class="details">
+                    <p class="activity">抵达郑州东站，进站，安检，候车</p>
+                    <p class="location">郑州东站</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约30分钟</p>
+                    <p class="notes">G2156次列车，06车12C号。核对检票口。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">15:23 - 19:49</div>
+                <div class="details">
+                    <p class="activity">乘坐高铁 G2156 前往烟台</p>
+                    <p class="location">郑州东站 → 烟台南站</p>
+                    <p class="transport">高铁</p>
+                    <p class="duration">4小时26分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">19:49 - 20:10</div>
+                <div class="details">
+                    <p class="activity">抵达烟台南站，出站</p>
+                    <p class="location">烟台南站</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约20分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">20:10 - 20:55</div>
+                <div class="details">
+                    <p class="activity">从烟台南站前往民宿</p>
+                    <p class="location">烟台南站 → 烟台九里民宿 (31.2公里)</p>
+                    <p class="transport">打车/网约车</p>
+                    <p class="duration">约42分钟 (理想路况)</p>
+                    <p class="notes">地址: 牟平区宁海街道滨海东路199号九里晴川53-2-601号。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">20:55 - 21:25</div>
+                <div class="details">
+                    <p class="activity">民宿自助入住，放置行李</p>
+                    <p class="location">九里民宿</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约30分钟</p>
+                    <p class="notes">稍作休整，准备出发去吃海鲜烧烤大排档！</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">21:25 - 21:40</div>
+                <div class="details">
+                    <p class="activity">从民宿出发前往德盛缘海鲜烧烤大排档</p>
+                    <p class="location">九里民宿 → 德盛缘海鲜烧烤大排档 (8公里)</p>
+                    <p class="transport">打车/网约车</p>
+                    <p class="duration">约14分钟 (行驶)</p>
+                    <p class="notes">建议提前叫车。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">21:40 - 23:10</div>
+                <div class="details">
+                    <p class="activity">享用【德盛缘海鲜烧烤大排档】晚餐</p>
+                    <p class="location">德盛缘海鲜烧烤大排档</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约1.5小时</p>
+                    <p class="notes">品尝地道的海鲜烧烤，感受烟台夜生活！</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">23:10 - 23:25</div>
+                <div class="details">
+                    <p class="activity">从德盛缘海鲜烧烤大排档返回民宿</p>
+                    <p class="location">德盛缘海鲜烧烤大排档 → 九里民宿 (8公里)</p>
+                    <p class="transport">打车/网约车</p>
+                    <p class="duration">约14分钟 (行驶)</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">23:25 之后</div>
+                <div class="details">
+                    <p class="activity">抵达民宿，洗漱休息</p>
+                    <p class="location">九里民宿</p>
+                    <p class="transport">-</p>
+                    <p class="duration">-</p>
+                    <p class="notes">好好休息，为第二天的音乐节养精蓄锐！</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5月31日 周六 -->
+        <section id="day2" class="day-content">
+            <h2 class="day-title">5月31日 周六：音乐节 DAY 1</h2>
+            
+            <div class="activity-block">
+                <div class="time">09:00 - 09:30</div>
+                <div class="details">
+                    <p class="activity">起床，洗漱</p>
+                    <p class="location">九里民宿</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约30分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">09:30 - 10:00</div>
+                <div class="details">
+                    <p class="activity">享用早餐 (自理)</p>
+                    <p class="location">九里民宿</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约30分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">10:00 - 10:15</div>
+                <div class="details">
+                    <p class="activity">从民宿步行前往悦享沙滩</p>
+                    <p class="location">九里民宿 → 悦享沙滩 (约1公里)</p>
+                    <p class="transport">步行</p>
+                    <p class="duration">约15分钟</p>
+                    <p class="notes">享受海边晨光。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">10:15 - 11:45</div>
+                <div class="details">
+                    <p class="activity">在【悦享沙滩】游玩，拍照，放松</p>
+                    <p class="location">悦享沙滩</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约1.5小时</p>
+                    <p class="notes">享受悠闲的沙滩时光。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">11:45 - (根据音乐节开场时间灵活调整)</div>
+                <div class="details">
+                    <p class="activity">从悦享沙滩步行前往里蹦岛音乐节场地，准备入场</p>
+                    <p class="location">悦享沙滩 → 里蹦岛音乐节场地 (约400米)</p>
+                    <p class="transport">步行</p>
+                    <p class="duration">约5-10分钟</p>
+                    <p class="notes">留意音乐节官方公布的Day 1具体开场时间。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">音乐节开场后 - 约22:30</div>
+                <div class="details">
+                    <p class="activity">参加【2025养马岛音乐节 DAY 1】</p>
+                    <p class="location">龙湖里蹦岛 (音乐节场地)</p>
+                    <p class="transport">-</p>
+                    <p class="duration">-</p>
+                    <p class="notes">餐饮：场内有小吃，饿了再买。关注丹、橘、对角巷等乐队演出时间。带好门票、防晒、雨具、充电宝、少量现金。注意安全补水！</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">约 22:30 - 22:45</div>
+                <div class="details">
+                    <p class="activity">音乐节结束，从场地步行返回民宿</p>
+                    <p class="location">音乐节场地 → 九里民宿</p>
+                    <p class="transport">步行</p>
+                    <p class="duration">5-15分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">22:45 之后</div>
+                <div class="details">
+                    <p class="activity">抵达民宿，洗漱休息</p>
+                    <p class="location">九里民宿</p>
+                    <p class="transport">-</p>
+                    <p class="duration">-</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6月1日 周日 -->
+        <section id="day3" class="day-content">
+            <h2 class="day-title">6月1日 周日：养马岛深度游 & 市区精华游 (梧桐悦居)</h2>
+            
+            <div class="activity-block">
+                <div class="time">08:30 - 09:00</div>
+                <div class="details">
+                    <p class="activity">起床，洗漱，整理行李</p>
+                    <p class="location">九里民宿</p>
+                    <p class="transport">-</p>
+                    <p class="duration">30分钟</p>
+                    <p class="notes">上午从原九里民宿退房并携带行李。务必查询当日涨潮时间以获得最佳果冻海体验 (参考11:20-14:30)！天气最高30度，海边多变，注意防晒。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">09:00 - 09:30</div>
+                <div class="details">
+                    <p class="activity">享用早餐 (自理)，办理九里民宿退房手续</p>
+                    <p class="location">九里民宿</p>
+                    <p class="transport">-</p>
+                    <p class="duration">30分钟</p>
+                    <p class="notes">重要：今天需要退房并携带所有行李！</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">09:30 - 09:50</div>
+                <div class="details">
+                    <p class="activity">从原九里民宿出发前往养马岛游客集散中心/天马广场附近</p>
+                    <p class="location">原九里民宿 → 养马岛游客集散中心/天马广场 (8.2公里)</p>
+                    <p class="transport">打车/网约车 (携带行李)</p>
+                    <p class="duration">约18分钟 (行驶)</p>
+                    <p class="notes">确保所有物品带齐。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">09:50 - 10:15</div>
+                <div class="details">
+                    <p class="activity">在养马岛天马广场/游客集散中心租赁点租电动车 (行李可考虑寄存或随车)</p>
+                    <p class="location">养马岛游客集散中心/天马广场</p>
+                    <p class="transport">-</p>
+                    <p class="duration">25分钟</p>
+                    <p class="notes">寄寄存行李，参考博主“小八嘎” ¥130。多款价，检查电量。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">10:15 - 11:20</div>
+                <div class="details">
+                    <p class="activity">【养马岛逆时针游 - 前期铺垫】</p>
+                    <p class="location">养马岛环海路 (逆时针)</p>
+                    <p class="transport">租用电动车/包车</p>
+                    <p class="duration">约1小时5分钟 (含游玩)</p>
+                    <p class="notes">路线(逆时针): 1.莲花夕照 (含洞穴,亿年大裂缝)，此时可能未到最佳果冻海时间，先感受其地貌特色) - 2.海岛日记。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">11:20 - 13:00</div>
+                <div class="details">
+                    <p class="activity">【养马岛逆时针游 - 果冻海精华时段 part 1】</p>
+                    <p class="location">养马岛环海路 (逆时针)</p>
+                    <p class="transport">租用电动车/包车</p>
+                    <p class="duration">约1小时40分钟 (含游玩)</p>
+                    <p class="notes">果冻海参考时间: 11:20-14:30！路线(逆时针): 3.御笔苑(含洞穴，观赏果冻海) - 4.獐岛红栈道(果冻海最佳观赏点，含贝壳洞，喂海鸥)。此处多停留！</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">13:00 - 14:00</div>
+                <div class="details">
+                    <p class="activity">前往【鑫阳饭庄】享用海鲜午餐</p>
+                    <p class="location">鑫阳饭庄 (岛上，过御笔苑，不到秦风崖)</p>
+                    <p class="transport">电动车/包车</p>
+                    <p class="duration">约1小时 (含用餐)</p>
+                    <p class="notes">用餐时间根据游玩进度灵活调整，但尽量在14:30前吃完，以便继续利用果冻海时段。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">14:00 - 15:15</div>
+                <div class="details">
+                    <p class="activity">【养马岛逆时针游 - 果冻海精华时段 part 2 & 赶海体验】</p>
+                    <p class="location">养马岛环海路 (逆时针)</p>
+                    <p class="transport">电动车/包车</p>
+                    <p class="duration">约1小时15分钟 (含游玩)</p>
+                    <p class="notes">继续果冻海窗口期！路线(逆时针): 5.秦风崖景区(赶海抓螃蟹最佳地点，观海景，后海咖啡)。赶海需看当时潮汐是否合适，即使不适合，也可欣赏秦风崖景色。其他途径点如金螺石、兴运海尚海洋牧场也可打卡果冻海。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">15:15 - 15:30</div>
+                <div class="details">
+                    <p class="activity">结束养马岛游玩，归还电动车/与包车司机结算 (取行李如寄寄存，否则就随身携带)</p>
+                    <p class="location">养马岛游客集散中心/天马广场</p>
+                    <p class="transport">-</p>
+                    <p class="duration">15分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">15:30 - 15:55</div>
+                <div class="details">
+                    <p class="activity">从养马岛出发前往【梧桐悦居酒店】办理入住并放行李</p>
+                    <p class="location">养马岛 → 梧桐悦居酒店 (19.5公里)</p>
+                    <p class="transport">打车/网约车 (携带行李)</p>
+                    <p class="duration">约24分钟 (行驶)</p>
+                    <p class="notes">新住宿点！先安顿好。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">15:55 - 16:15</div>
+                <div class="details">
+                    <p class="activity">酒店休整片刻，轻装准备出发</p>
+                    <p class="location">梧桐悦居酒店</p>
+                    <p class="transport">-</p>
+                    <p class="duration">20分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">16:15 - 16:32</div>
+                <div class="details">
+                    <p class="activity">从梧桐悦居酒店出发前往粉色沙滩</p>
+                    <p class="location">梧桐悦居酒店 → 粉色沙滩 (12.9公里)</p>
+                    <p class="transport">打车/网约车</p>
+                    <p class="duration">约17分钟 (行驶)</p>
+                    <p class="notes">精确时间更新！</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">16:32 - 17:17</div>
+                <div class="details">
+                    <p class="activity">在【粉色沙滩】游玩，拍照打卡</p>
+                    <p class="location">粉色沙滩</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约45分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">17:17 - 17:28</div>
+                <div class="details">
+                    <p class="activity">从粉色沙滩出发前往滨海中路</p>
+                    <p class="location">粉色沙滩 → 滨海中路某段 (9.3公里)</p>
+                    <p class="transport">打车/网约车</p>
+                    <p class="duration">约11分钟 (行驶)</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">17:28 - 18:08</div>
+                <div class="details">
+                    <p class="activity">漫步/观赏【滨海中路】风光</p>
+                    <p class="location">滨海中路 (如月亮湾、第一海水浴场附近)</p>
+                    <p class="transport">步行</p>
+                    <p class="duration">约40分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">18:08 - 18:15</div>
+                <div class="details">
+                    <p class="activity">从滨海中路出发前往黄海明珠</p>
+                    <p class="location">滨海中路某段 → 黄海明珠 (2.6公里)</p>
+                    <p class="transport">打车/网约车</p>
+                    <p class="duration">约7分钟 (行驶)</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">18:15 - 18:55</div>
+                <div class="details">
+                    <p class="activity">参观【黄海明珠】(外观或登塔，视时间而定)</p>
+                    <p class="location">黄海明珠景区</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约40分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">18:55 - 19:07</div>
+                <div class="details">
+                    <p class="activity">前往【烟大小吃街(祥隆万象城店)】</p>
+                    <p class="location">黄海明珠 → 烟大小吃街(祥隆万象城店) (2.7公里)</p>
+                    <p class="transport">打车/网约车</p>
+                    <p class="duration">约12分钟 (行驶)</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">19:07 - (约1.5-2小时)</div>
+                <div class="details">
+                    <p class="activity">在【烟大小吃街(祥隆万象城店)】享用晚餐</p>
+                    <p class="location">烟大小吃街(祥隆万象城店)</p>
+                    <p class="transport">-</p>
+                    <p class="duration">(用餐时间灵活)</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">晚餐后 (约20:37-21:07)</div>
+                <div class="details">
+                    <p class="activity">从烟大小吃街返回梧桐悦居酒店</p>
+                    <p class="location">烟大小吃街(祥隆万象城店) → 梧桐悦居酒店 (1.2公里)</p>
+                    <p class="transport">打车/步行 (若近)</p>
+                    <p class="duration">约4分钟 (行驶)</p>
+                    <p class="notes">非常近便！</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">约20:41/21:11 之后</div>
+                <div class="details">
+                    <p class="activity">抵达酒店，洗漱休息</p>
+                    <p class="location">梧桐悦居酒店</p>
+                    <p class="transport">-</p>
+                    <p class="duration">-</p>
+                    <p class="notes">为第二天返程做准备。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6月2日 周一 -->
+        <section id="day4" class="day-content">
+            <h2 class="day-title">6月2日 周一：返程 (从梧桐悦居酒店出发)</h2>
+            
+            <div class="activity-block">
+                <div class="time">08:00 - 09:00</div>
+                <div class="details">
+                    <p class="activity">享用早餐 (酒店或周边)，整理行李，办理梧桐悦居退房手续</p>
+                    <p class="location">梧桐悦居酒店</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约1小时</p>
+                    <p class="notes">酒店有早餐，时间充裕！仔细检查有无遗漏物品。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">09:30 - 09:45</div>
+                <div class="details">
+                    <p class="activity">从梧桐悦居酒店前往烟台南站</p>
+                    <p class="location">梧桐悦居酒店 → 烟台南站 (8公里)</p>
+                    <p class="transport">打车/网约车</p>
+                    <p class="duration">约15分钟 (行驶)</p>
+                    <p class="notes">务必提前出发！建议最晚09:30出发，确保10:00前抵达烟台南站。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">09:45 - 10:40</div>
+                <div class="details">
+                    <p class="activity">抵达烟台南站，进站，安检，候车</p>
+                    <p class="location">烟台南站</p>
+                    <p class="transport">-</p>
+                    <p class="duration">约55分钟</p>
+                    <p class="notes">G2158次列车，04车07B号。核对检票口。</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">10:55 - 15:01</div>
+                <div class="details">
+                    <p class="activity">乘坐高铁 G2158 返回郑州</p>
+                    <p class="location">烟台南站 → 郑州东站</p>
+                    <p class="transport">高铁</p>
+                    <p class="duration">4小时6分钟</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+
+            <div class="activity-block">
+                <div class="time">15:01</div>
+                <div class="details">
+                    <p class="activity">抵达郑州东站，行程圆满结束</p>
+                    <p class="location">郑州东站</p>
+                    <p class="transport">-</p>
+                    <p class="duration">-</p>
+                    <p class="notes">-</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 内部JavaScript脚本 - 确保日期切换流畅稳定 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navItems = document.querySelectorAll('.date-nav .nav-item');
+            const dayContents = document.querySelectorAll('.itinerary-container .day-content');
+
+            function showDay(targetDayId, clickedNavItem) {
+                // 1. 隐藏所有日程内容板块并移除 'active' 状态
+                dayContents.forEach(content => {
+                    content.classList.remove('active');
+                    content.style.display = 'none'; // 确保完全隐藏
+                });
+
+                // 2. 移除所有导航项的 'active' 状态
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // 3. 显示目标日程内容板块
+                const targetDay = document.getElementById(targetDayId);
+                if (targetDay) {
+                    targetDay.classList.add('active');
+                    targetDay.style.display = 'block'; // 确保显示
+                }
+
+                // 4. 给当前点击的导航项添加 'active' 状态
+                if (clickedNavItem) {
+                    clickedNavItem.classList.add('active');
+                }
+
+                // 5. 滚动页面到顶部
+                window.scrollTo({ 
+                    top: 0, 
+                    behavior: 'smooth' // 平滑滚动效果
+                });
+            }
+
+            // 为每个导航项添加点击事件监听器
+            navItems.forEach(item => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault(); // 阻止默认的链接跳转行为
+                    const targetDayId = item.dataset.day; 
+                    showDay(targetDayId, item); // 传递当前点击的导航项
+                });
+            });
+
+            // 页面加载完成后，默认显示第一个日期的行程
+            // 模拟点击第一个导航项，确保初始化状态正确且样式应用
+            if (navItems.length > 0) {
+                navItems[0].click(); 
+            }
+        });
+    </script>
+</body>
+</html>
